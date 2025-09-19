@@ -429,6 +429,10 @@ static void init_thread (struct thread *t, const char *name, int priority)
   t->stack = (uint8_t *) t + PGSIZE;
   t->priority = priority;
   t->magic = THREAD_MAGIC;
+  //initialize semaphore for thread blocking and waking
+  t->sema = malloc(sizeof(struct semaphore));
+  ASSERT(t->sema != NULL);
+  sema_init(t->sema, 0);
 
   old_level = intr_disable ();
   list_push_back (&all_list, &t->allelem);
@@ -501,6 +505,8 @@ void thread_schedule_tail (struct thread *prev)
   if (prev != NULL && prev->status == THREAD_DYING && prev != initial_thread)
     {
       ASSERT (prev != cur);
+      //free the semaphore
+      free(prev->sema);
       palloc_free_page (prev);
     }
 }
