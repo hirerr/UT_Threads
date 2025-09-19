@@ -1,9 +1,11 @@
 #ifndef THREADS_THREAD_H
 #define THREADS_THREAD_H
 
+
 #include <debug.h>
 #include <list.h>
 #include <stdint.h>
+#include "threads/synch.h"
 
 /* States in a thread's life cycle. */
 enum thread_status
@@ -92,7 +94,7 @@ struct thread
   int priority;              /* Priority. */
   struct list_elem allelem;  /* List element for all threads list. */
   int64_t wake_tick;         /* Tick to wake up thread */
-  struct semaphore* sema;          /* Semaphore for thread blocking and waking */
+  struct semaphore sema;          /* Semaphore for thread blocking and waking */
   /* Shared between thread.c and synch.c. */
   struct list_elem elem; /* List element. */
 
