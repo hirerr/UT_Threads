@@ -93,6 +93,7 @@ struct thread
   uint8_t *stack;            /* Saved stack pointer. */
   int priority;              /* Priority. */
   struct list_elem allelem;  /* List element for all threads list. */
+  struct list_elem sleep_elem; /* List element for sleep list */
   int64_t wake_tick;         /* Tick to wake up thread */
   struct semaphore sema;          /* Semaphore for thread blocking and waking */
   /* Shared between thread.c and synch.c. */

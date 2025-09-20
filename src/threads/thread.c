@@ -11,6 +11,7 @@
 #include "threads/switch.h"
 #include "threads/synch.h"
 #include "threads/vaddr.h"
+#include <stdio.h>
 #ifdef USERPROG
 #include "userprog/process.h"
 #endif
@@ -114,12 +115,18 @@ void thread_start (void)
   /* Wait for the idle thread to initialize idle_thread. */
   sema_down (&idle_started);
 }
+bool compare_priority (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED) {
+  struct thread *t1 = list_entry(a, struct thread, elem);
+  struct thread *t2 = list_entry(b, struct thread, elem);
+  return t1->priority > t2->priority;
+}
 
 /* Called by the timer interrupt handler at each timer tick.
    Thus, this function runs in an external interrupt context. */
 void thread_tick (void)
 {
   struct thread *t = thread_current ();
+  
 
   /* Update statistics. */
   if (t == idle_thread)
@@ -134,6 +141,13 @@ void thread_tick (void)
   /* Enforce preemption. */
   if (++thread_ticks >= TIME_SLICE)
     intr_yield_on_return ();
+
+  // list_sort(&ready_list, (list_less_func *) compare_priority, NULL);
+  if (!list_empty(&ready_list)) {
+    if (thread_current()->priority < list_entry(list_front(&ready_list), struct thread, elem)->priority) {
+      intr_yield_on_return();
+    }
+  }
 }
 
 /* Prints thread statistics. */
@@ -196,6 +210,9 @@ tid_t thread_create (const char *name, int priority, thread_func *function,
   /* Add to run queue. */
   thread_unblock (t);
 
+  if (priority > thread_current()->priority) {
+    thread_yield();
+  }
   return tid;
 }
 
@@ -228,12 +245,13 @@ void thread_unblock (struct thread *t)
   enum intr_level old_level;
 
   ASSERT (is_thread (t));
-
   old_level = intr_disable ();
   ASSERT (t->status == THREAD_BLOCKED);
-  list_push_back (&ready_list, &t->elem);
+  list_insert_ordered (&ready_list, &t->elem, (list_less_func *) compare_priority, NULL);
   t->status = THREAD_READY;
+
   intr_set_level (old_level);
+
 }
 
 /* Returns the name of the running thread. */
@@ -291,11 +309,12 @@ void thread_yield (void)
 
   old_level = intr_disable ();
   if (cur != idle_thread)
-    list_push_back (&ready_list, &cur->elem);
+    list_insert_ordered (&ready_list, &cur->elem, (list_less_func *) compare_priority, NULL);
   cur->status = THREAD_READY;
   schedule ();
   intr_set_level (old_level);
 }
+
 
 /* Invoke function 'func' on all threads, passing along 'aux'.
    This function must be called with interrupts off. */
@@ -315,7 +334,18 @@ void thread_foreach (thread_action_func *func, void *aux)
 /* Sets the current thread's priority to NEW_PRIORITY. */
 void thread_set_priority (int new_priority)
 {
-  thread_current ()->priority = new_priority;
+  enum intr_level old_level = intr_disable();
+  thread_current()->priority = new_priority;
+
+  // if the current thread is not the highest priority thread, yield
+    if (!list_empty(&ready_list)) {
+      intr_set_level(old_level);
+    if (thread_current()->priority < list_entry(list_front(&ready_list), struct thread, elem)->priority) {
+      thread_yield();
+      return;
+    }
+  }
+  intr_set_level(old_level);
 }
 
 /* Returns the current thread's priority. */
@@ -437,7 +467,7 @@ static void init_thread (struct thread *t, const char *name, int priority)
   intr_set_level (old_level);
 }
 
-/* Allocates a SIZE-byte frame at the top of thread T's stack and
+/* Allocates a SIZE-byte frame at the top of thread T's stack andf
    returns a pointer to the frame's base. */
 static void *alloc_frame (struct thread *t, size_t size)
 {

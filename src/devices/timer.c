@@ -20,6 +20,8 @@
 /* Number of timer ticks since OS booted. */
 static int64_t ticks;
 
+static struct list sleep_list;
+
 /* Number of loops per timer tick.
    Initialized by timer_calibrate(). */
 static unsigned loops_per_tick;
@@ -36,6 +38,7 @@ void timer_init (void)
 {
   pit_configure_channel (0, 2, TIMER_FREQ);
   intr_register_ext (0x20, timer_interrupt, "8254 Timer");
+  list_init(&sleep_list);
 }
 
 /* Calibrates loops_per_tick, used to implement brief delays. */
@@ -78,6 +81,11 @@ int64_t timer_ticks (void)
    should be a value once returned by timer_ticks(). */
 int64_t timer_elapsed (int64_t then) { return timer_ticks () - then; }
 
+bool compare_wake_tick (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED) {
+  struct thread *t1 = list_entry(a, struct thread, sleep_elem);
+  struct thread *t2 = list_entry(b, struct thread, sleep_elem);
+  return t1->wake_tick < t2->wake_tick;
+}
 /* Sleeps for approximately TICKS timer ticks.  Interrupts must
    be turned on. */
 void timer_sleep (int64_t ticks)
@@ -86,16 +94,17 @@ void timer_sleep (int64_t ticks)
 
   ASSERT (intr_get_level () == INTR_ON);
 
+  enum intr_level old_level = intr_disable();
+
   //calculate ticks and store in thread
   thread_current()->wake_tick = start + ticks;
+  list_insert_ordered(&sleep_list, &thread_current()->sleep_elem, (list_less_func *) compare_wake_tick, NULL);
+  intr_set_level(old_level);
   sema_down(&thread_current()->sema);
-
-  //after waking up, clear wake_tick
-  thread_current()->wake_tick = 0;
 
 }
 
-/* Sleeps for approximately MS milliseconds.  Interrupts must be
+/* Sleeps for approximately MS milliseconds.  Interrupts musxt be
    turned on. */
 void timer_msleep (int64_t ms) { real_time_sleep (ms, 1000); }
 
@@ -140,21 +149,39 @@ void timer_print_stats (void)
   printf ("Timer: %" PRId64 " ticks\n", timer_ticks ());
 }
 
-void check_wake_up(struct thread *t, void *aux)
-{
-  if (t->status == THREAD_BLOCKED && t->wake_tick <= timer_ticks()) {
-    sema_up(&t->sema);
-  }
-}
+// void check_wake_up(struct thread *t)
+// {
+//   if (t->wake_tick <= timer_ticks()) {
+//     list_remove(&t->elem);  
+//     t->wake_tick = 0;          
+//     sema_up(&t->sema);
+//   }
+// }
 
 /* Timer interrupt handler. */
 static void timer_interrupt (struct intr_frame *args UNUSED)
 {
   ticks++;
+
+  /* Because the list is sorted, check only from the front.
+     This also elegantly solves the "modifying while iterating" bug. */
+  while (!list_empty(&sleep_list))
+  {
+    struct thread *t = list_entry(list_front(&sleep_list), struct thread, sleep_elem);
+
+    if (t->wake_tick <= ticks)
+    {
+      list_pop_front(&sleep_list);
+      t->wake_tick = 0;
+      sema_up(&t->sema);
+    }
+    else
+    {
+      break; 
+    }
+  }
+
   thread_tick ();
-  //check all threads if need to wake up
-  ASSERT (intr_get_level () == INTR_OFF);
-  thread_foreach (check_wake_up, NULL);
 }
 
 /* Returns true if LOOPS iterations waits for more than one timer
