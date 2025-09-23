@@ -96,6 +96,8 @@ struct thread
   struct list_elem sleep_elem; /* List element for sleep list */
   int64_t wake_tick;         /* Tick to wake up thread */
   struct semaphore sema;          /* Semaphore for thread blocking and waking */
+  int base_priority; /* Base priority before donations */
+  struct lock *lock_waiting; /* Lock that the thread is waiting on (if any) */
   /* Shared between thread.c and synch.c. */
   struct list_elem elem; /* List element. */
 
@@ -113,8 +115,10 @@ struct thread
    Controlled by kernel command-line option "-o mlfqs". */
 extern bool thread_mlfqs;
 
+
 void thread_init (void);
 void thread_start (void);
+bool compare_priority (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED);
 
 void thread_tick (void);
 void thread_print_stats (void);
@@ -138,6 +142,7 @@ void thread_foreach (thread_action_func *, void *);
 
 int thread_get_priority (void);
 void thread_set_priority (int);
+void thread_update_priority(struct thread *t, int new_priority);
 
 int thread_get_nice (void);
 void thread_set_nice (int);

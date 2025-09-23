@@ -331,11 +331,23 @@ void thread_foreach (thread_action_func *func, void *aux)
     }
 }
 
+void thread_update_priority(struct thread *t, int new_priority) {
+  enum intr_level old_level = intr_disable();
+  t->priority = new_priority;
+  t->status = THREAD_READY;
+  // if the thread is in the ready list, remove it and reinsert it
+  ASSERT(t->status == THREAD_READY);
+  list_remove(&t->elem);
+  list_insert_ordered(&ready_list, &t->elem, (list_less_func *) compare_priority, NULL);
+  intr_set_level(old_level);
+}
+
 /* Sets the current thread's priority to NEW_PRIORITY. */
 void thread_set_priority (int new_priority)
 {
   enum intr_level old_level = intr_disable();
   thread_current()->priority = new_priority;
+  thread_current()->base_priority = new_priority;
 
   // if the current thread is not the highest priority thread, yield
     if (!list_empty(&ready_list)) {
@@ -458,9 +470,12 @@ static void init_thread (struct thread *t, const char *name, int priority)
   strlcpy (t->name, name, sizeof t->name);
   t->stack = (uint8_t *) t + PGSIZE;
   t->priority = priority;
+  //initialize base priority
+  t->base_priority = priority;
   t->magic = THREAD_MAGIC;
   //initialize semaphore for thread blocking and waking
   sema_init(&t->sema, 0);
+  t->lock_waiting = NULL;
 
   old_level = intr_disable ();
   list_push_back (&all_list, &t->allelem);
