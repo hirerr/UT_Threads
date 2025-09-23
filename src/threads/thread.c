@@ -32,6 +32,7 @@ static struct list all_list;
 /* Idle thread. */
 static struct thread *idle_thread;
 
+
 /* Initial thread, the thread running init.c:main(). */
 static struct thread *initial_thread;
 
@@ -92,6 +93,7 @@ void thread_init (void)
   lock_init (&tid_lock);
   list_init (&ready_list);
   list_init (&all_list);
+
 
   /* Set up a thread structure for the running thread. */
   initial_thread = running_thread ();
@@ -346,12 +348,29 @@ void thread_update_priority(struct thread *t, int new_priority) {
 void thread_set_priority (int new_priority)
 {
   enum intr_level old_level = intr_disable();
-  thread_current()->priority = new_priority;
+  if (list_empty(&thread_current()->locks_held)) {
+    thread_current()->priority = new_priority;
+  } 
   thread_current()->base_priority = new_priority;
 
   // if the current thread is not the highest priority thread, yield
     if (!list_empty(&ready_list)) {
-      intr_set_level(old_level);
+    if (thread_current()->priority < list_entry(list_front(&ready_list), struct thread, elem)->priority) {
+      thread_yield();
+      return;
+    }
+  }
+  intr_set_level(old_level);
+}
+
+/* Sets the current thread's priority to NEW_PRIORITY. */
+void thread_set_priority_donate (int new_priority)
+{
+  enum intr_level old_level = intr_disable();
+  thread_current()->priority = new_priority;
+
+  // if the current thread is not the highest priority thread, yield
+    if (!list_empty(&ready_list)) {
     if (thread_current()->priority < list_entry(list_front(&ready_list), struct thread, elem)->priority) {
       thread_yield();
       return;
@@ -476,6 +495,7 @@ static void init_thread (struct thread *t, const char *name, int priority)
   //initialize semaphore for thread blocking and waking
   sema_init(&t->sema, 0);
   t->lock_waiting = NULL;
+  list_init(&t->locks_held);
 
   old_level = intr_disable ();
   list_push_back (&all_list, &t->allelem);

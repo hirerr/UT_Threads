@@ -97,7 +97,9 @@ struct thread
   int64_t wake_tick;         /* Tick to wake up thread */
   struct semaphore sema;          /* Semaphore for thread blocking and waking */
   int base_priority; /* Base priority before donations */
+  struct list locks_held; /* List of locks held by the thread */
   struct lock *lock_waiting; /* Lock that the thread is waiting on (if any) */
+  struct list lock_held; /* List of locks held by the thread */
   /* Shared between thread.c and synch.c. */
   struct list_elem elem; /* List element. */
 
