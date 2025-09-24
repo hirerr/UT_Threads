@@ -144,10 +144,9 @@ void thread_tick (void)
   if (++thread_ticks >= TIME_SLICE)
     intr_yield_on_return ();
 
-  // list_sort(&ready_list, (list_less_func *) compare_priority, NULL);
   if (!list_empty(&ready_list)) {
     if (thread_current()->priority < list_entry(list_front(&ready_list), struct thread, elem)->priority) {
-      intr_yield_on_return();
+      intr_yield_on_return ();
     }
   }
 }

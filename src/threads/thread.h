@@ -77,7 +77,7 @@ typedef int tid_t;
    set to THREAD_MAGIC.  Stack overflow will normally change this
    value, triggering the assertion.  (So don't add elements below
    THREAD_MAGIC.)
-*/
+*/ 
 /* The `elem' member has a dual purpose.  It can be an element in
    the run queue (thread.c), or it can be an element in a
    semaphore wait list (synch.c).  It can be used these two ways

@@ -124,15 +124,14 @@ void sema_up (struct semaphore *sema)
   /* Decide if we should yield AFTER we restore interrupt state. */
   bool should_yield = (unblocked != NULL &&
                        unblocked->priority > thread_current()->priority);
-
-  intr_set_level (old_level);
-
   if (should_yield) {
     if (intr_context())
       intr_yield_on_return();    /* safe from ISR (e.g., timer interrupt) */
     else
       thread_yield();            /* normal path from thread context */
   }
+
+  intr_set_level (old_level);
 }
 
 
@@ -230,11 +229,11 @@ void lock_acquire (struct lock *lock)
       //donate priority if the current thread has higher priority
       if(thread_current()->priority > cur_holder->priority) {
         cur_holder->priority = thread_current()->priority;
-      }
-      //if the current holder is in the ready list, update its position
-      if(cur_holder->status == THREAD_READY) {
+        if(cur_holder->status == THREAD_READY) {
         thread_update_priority(cur_holder, thread_current()->priority);
       }
+      }
+      
       if(cur_holder->lock_waiting != NULL) {
         if(cur_holder->lock_waiting->priority < thread_current()->priority) {
           cur_holder->lock_waiting->priority = thread_current()->priority;
@@ -284,6 +283,7 @@ void lock_release (struct lock *lock)
   ASSERT (lock_held_by_current_thread (lock));
   enum intr_level old_level = intr_disable ();
 
+  sema_up (&lock->semaphore);
   list_remove(&lock->elem);
   //go through all locks held by the thread to find the highest priority
   struct list_elem *e;
@@ -302,7 +302,6 @@ void lock_release (struct lock *lock)
 
   //release the lock
   lock->holder = NULL;
-  sema_up (&lock->semaphore);
   intr_set_level (old_level);
   
 }
@@ -322,7 +321,14 @@ struct semaphore_elem
 {
   struct list_elem elem;      /* List element. */
   struct semaphore semaphore; /* This semaphore. */
+  int priority; /* Priority of the waiting thread */
 };
+
+bool compare_waiter_priority (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED) {
+  const struct semaphore_elem *sa = list_entry(a, struct semaphore_elem, elem);
+  const struct semaphore_elem *sb = list_entry(b, struct semaphore_elem, elem);
+  return sa->priority > sb->priority;
+}
 
 /* Initializes condition variable COND.  A condition variable
    allows one piece of code to signal a condition and cooperating
@@ -364,7 +370,8 @@ void cond_wait (struct condition *cond, struct lock *lock)
   ASSERT (lock_held_by_current_thread (lock));
 
   sema_init (&waiter.semaphore, 0);
-  list_push_back (&cond->waiters, &waiter.elem);
+  waiter.priority = thread_current()->priority;
+  list_insert_ordered (&cond->waiters, &waiter.elem, (list_less_func*) compare_waiter_priority, NULL);
   lock_release (lock);
   sema_down (&waiter.semaphore);
   lock_acquire (lock);
