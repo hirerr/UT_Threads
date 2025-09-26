@@ -113,7 +113,7 @@ void sema_up (struct semaphore *sema)
   old_level = intr_disable ();
 
   if (!list_empty (&sema->waiters)) {
-    /* Waiter priorities may have changed due to donation; pick the best now. */
+    //pick top waiter to wake up
     list_sort (&sema->waiters, (list_less_func *) compare_priority, NULL);
     unblocked = list_entry (list_pop_front (&sema->waiters), struct thread, elem);
     thread_unblock (unblocked);
@@ -123,10 +123,13 @@ void sema_up (struct semaphore *sema)
 // If the unblocked thread has higher priority than the current thread, yield depending on interrupt state
   bool yield = (unblocked != NULL && unblocked->priority > thread_current()->priority);
   if (yield) {
-    if (intr_context())
-      intr_yield_on_return(); 
+    if (intr_context()) {
+      intr_yield_on_return();
+    } 
     else
-      thread_yield();           
+    {
+      thread_yield(); 
+    }          
   }
 
   intr_set_level (old_level);
