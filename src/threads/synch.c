@@ -118,17 +118,15 @@ void sema_up (struct semaphore *sema)
     unblocked = list_entry (list_pop_front (&sema->waiters), struct thread, elem);
     thread_unblock (unblocked);
   }
-
   sema->value++;
 
-  /* Decide if we should yield AFTER we restore interrupt state. */
-  bool should_yield = (unblocked != NULL &&
-                       unblocked->priority > thread_current()->priority);
-  if (should_yield) {
+// If the unblocked thread has higher priority than the current thread, yield depending on interrupt state
+  bool yield = (unblocked != NULL && unblocked->priority > thread_current()->priority);
+  if (yield) {
     if (intr_context())
-      intr_yield_on_return();    /* safe from ISR (e.g., timer interrupt) */
+      intr_yield_on_return(); 
     else
-      thread_yield();            /* normal path from thread context */
+      thread_yield();           
   }
 
   intr_set_level (old_level);
@@ -189,7 +187,6 @@ static void sema_test_helper (void *sema_)
 void lock_init (struct lock *lock)
 {
   ASSERT (lock != NULL);
-  lock->priority = PRI_MIN;
   lock->holder = NULL;
   sema_init (&lock->semaphore, 1);
 }
@@ -215,15 +212,11 @@ void lock_acquire (struct lock *lock)
     sema_down(&lock->semaphore);
     lock->holder = thread_current();
     list_push_back(&thread_current()->locks_held, &lock->elem);
-    lock->priority = thread_current()->priority;
   }
   else {
     //donate priority
     struct thread *cur_holder = lock->holder;
     thread_current()->lock_waiting = lock;
-    if(thread_current()->priority > lock->priority) {
-      lock->priority = thread_current()->priority;
-    }
     //go through nested donation
     while(cur_holder != NULL) {
       //donate priority if the current thread has higher priority
@@ -233,11 +226,8 @@ void lock_acquire (struct lock *lock)
         thread_update_priority(cur_holder, thread_current()->priority);
       }
       }
-      
+      //move to next lock holder
       if(cur_holder->lock_waiting != NULL) {
-        if(cur_holder->lock_waiting->priority < thread_current()->priority) {
-          cur_holder->lock_waiting->priority = thread_current()->priority;
-        }
         cur_holder = cur_holder->lock_waiting->holder;
       } else {
         cur_holder = NULL;
@@ -247,7 +237,6 @@ void lock_acquire (struct lock *lock)
     //after waking up, current thread now has the lock
     lock->holder = thread_current();
     list_push_back(&thread_current()->locks_held, &lock->elem);
-    lock->priority = thread_current()->priority;
     thread_current()->lock_waiting = NULL;
   }
   intr_set_level (old_level);

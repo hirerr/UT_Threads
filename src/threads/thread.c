@@ -117,6 +117,7 @@ void thread_start (void)
   /* Wait for the idle thread to initialize idle_thread. */
   sema_down (&idle_started);
 }
+//used to order the list from high to low priority
 bool compare_priority (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED) {
   struct thread *t1 = list_entry(a, struct thread, elem);
   struct thread *t2 = list_entry(b, struct thread, elem);
@@ -211,6 +212,7 @@ tid_t thread_create (const char *name, int priority, thread_func *function,
   /* Add to run queue. */
   thread_unblock (t);
 
+  // If thread priority is higher than current thread, yield
   if (priority > thread_current()->priority) {
     thread_yield();
   }
@@ -248,6 +250,7 @@ void thread_unblock (struct thread *t)
   ASSERT (is_thread (t));
   old_level = intr_disable ();
   ASSERT (t->status == THREAD_BLOCKED);
+  //Used insert ordered to order by priority
   list_insert_ordered (&ready_list, &t->elem, (list_less_func *) compare_priority, NULL);
   t->status = THREAD_READY;
 

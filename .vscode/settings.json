@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "condition_variable": "c",
+        "fstream": "c",
+        "mutex": "c",
+        "ostream": "c",
+        "stop_token": "c"
+    }
+}
