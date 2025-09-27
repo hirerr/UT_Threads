@@ -5,30 +5,6 @@
                         +--------------------+
 
 
-The questions in this design document should reflect the design of the code you
-wrote for the project.  Your grade will reflect both the quality of your answer
-in this document and the quality of the design implementation in your code.  You
-may receive partial credit for answering questions for parts of the project that
-you did not get to implement, but you must indicate in your answer that there is
-no corresponding implementation, or you will not receive any credit.
-
-For each question, you should include both the name of the file(s), function 
-name(s), and the line numbers where the relevant code may be found---both the 
-code that answers the question directly and any function that you refer to in 
-your answer.
-
-These design documents will be completed and submitted as a group.  Please use 
-this document as a guide for design and discuss the questions and their 
-potential answers prior to beginning implementation.
-
-When you have completed your design document, submit it to the Canvas 
-assignment Project 1 Design and Documentation.   
-
-***Your submission must be a text file and each line must not extend past 80 
-characters.  In addition, your submission must contain all of the original 
-material and not exceed 15,500 characters.  The character count will be 
-measured using the Linux command wc.  (Note that rtf files are NOT text files.)
-
 ---- Team Information  ----
 
 >> Fill your names, UT EIDs, CS logins, email addresses, and unique numbers:
