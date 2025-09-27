@@ -33,26 +33,25 @@ measured using the Linux command wc.  (Note that rtf files are NOT text files.)
 
 >> Fill your names, UT EIDs, CS logins, email addresses, and unique numbers:
 
-Name: Tao Wan
-EID: tlw3595
+Name1: Tao Wan
+EID1: tlw3595
 CS login: taowan
 Email: twanslc@utexas.edu
-Unique Number:
+Unique Number: 54895
 
-Name:
-EID:
-CS login:
-Email:
-Unique Number:
+Name2: Samhith Konyala
+EID2: SK62423
+CS login: Skon49
+Email: Samhith.konyala@utexas.edu
+Unique Number: 54895
 
-Name:
-EID:
-CS login:
-Email:
-Unique Number:
+Name3: Rohan Ralli
+EID3: rr54555
+CS login: ralli66
+Email: rohanralli@utexas.edu
+Unique Number: 54880
 
-
-Slip days used on this project: 0
+Slip days used: 0
 
 
 
@@ -130,6 +129,9 @@ there are no more elements in the sleep list, we exit the loop.
 >> A3: What steps are taken to minimize the amount of time spent in
 >> the timer interrupt handler?  
 >>
+We reduced time by using a sleep list sorted by priority of wake ticks (lower the wake-ticks, the higher the priority).  
+This reduces the time finding the sleeping thread to O(1) as we can just keep viewing the first thread on the list to see if 
+it needs to wake up. If it is then we pop, and if not the handler moves on as the thread is sorted by priority.
 
 
 ---- SYNCHRONIZATION ----
@@ -138,11 +140,24 @@ there are no more elements in the sleep list, we exit the loop.
 >> A4: How are race conditions avoided when multiple threads call
 >> timer_sleep() simultaneously?  Describe the race conditions.
 >>
+A race condition would occur in timer_sleep() when multiple threads are trying to call it. 
+This would lead them both trying to insert into the sleep list concurrently. Since pointers are involved, 
+switching threads and operations in the middle of the method could lead to the sleep list becoming corrupted. 
+We avoid this by disabling interrupts in timer_sleep(), ensuring that only one thread can modify the sleep list at a time.
 
 
 >> A5: How are race conditions avoided when a timer interrupt occurs
 >> during a call to timer_sleep()?  Describe the race conditions.
 >>
+If the timer interrupt occurs during timer_sleep(), this could cause
+race conditions because timer interrupt views and possibly changes the
+sleep list. If timer interrupt does this while timer_sleep() is trying to
+add to the list, this can cause a corrupted list or an inconsistent traversal
+of the list that skips the currently being added thread, putting it to sleep
+forever. Another potential issue is if the timer ticks right in between when
+we are updating the thread's wake_tick, incorrectly setting the wake_tick.
+We handle both of these conditions by disabling interrupts so all interrupts
+happen sequentially, not concurrently, leading to consistent states.
 
 
 ---- RATIONALE ----
@@ -152,6 +167,14 @@ there are no more elements in the sleep list, we exit the loop.
 >> another design you considered?  Be certain to compare between two
 >> working designs.
 >>
+We used this design as it was the most efficient and correct way for 
+a thread to sleep and wake up. We first implemented the use of the all_list 
+to wake up the threads instead of the sleep_list. This was very inefficient 
+and not correct as it would wake up threads under locks and go through every thread 
+in the list (both unblocked and locked). The sorted sleeping list is more efficient than 
+the unsorted one as the order to wake it up is O(1). Although the inserting is O(N),
+timer_interrupt is called a lot more than timer_sleep so ultimately the approach is
+more efficient.
 
 
 
@@ -170,6 +193,33 @@ there are no more elements in the sleep list, we exit the loop.
 >> Identify the purpose of each in 25 words or less.
 >>
 
+bool compare_priority (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED);
+Method used to order the list of threads based on their priority element. (thread.c)
+
+void thread_update_priority(struct thread *t, int new_priority);
+Method used to reset the place of a thread in the ready queue after its priority has been changed. (thread.c)
+
+struct semaphore sema; 
+Semaphore for thread blocking and waking (struct thread, thread.h)
+
+int base_priority;
+Base priority before donations for a thread (struct thread, thread.h)
+
+struct list locks_held;
+List of locks held by the thread (struct thread, thread.h)
+
+struct lock *lock_waiting;
+Lock that the thread is waiting on, if any (struct thread, thread.h)
+
+struct list_elem elem;
+List element for threads holding multiple locks (struct lock, synch.h)
+
+int priority; 
+Priority of the waiting thread (struct semaphore_elem, synch.c)
+
+bool compare_waiter_priority (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED);
+Method used to order the list of a conditional variable’s queue waiters (synch.c)
+
 
 ---- ALGORITHMS ----
 
@@ -178,18 +228,58 @@ there are no more elements in the sleep list, we exit the loop.
 >> a lock, semaphore, or condition variable wakes up first?  
 >> Explain for all three.
 >>
+For our implementation, the case for a lock and semaphore is intertwined, 
+as our lock uses a binary semaphore to prevent race conditions. When a 
+lock is acquired, we call sema_down to decrement the sema variable and if 
+the lock is already acquired, we insert the current thread based on priority
+into the semaphore’s waiters list and block the thread. When a lock is released,
+we call sema_up to give up the lock. Within sema_up, we disable interrupts and 
+then check the lock’s semaphore waiters list. If it’s not empty, we re-sort the 
+list based on priority (as priorities could have changed during donation) and 
+unblock the highest priority thread at the front of the list to wake it up, inserting 
+it into the ready queue based on priority. If needed, we yield the CPU to that thread 
+if its priority is higher than our current thread. Our condition variable case also 
+intertwines with semaphores. Each condition variable has a list of waiters, sorted by priority. 
+Cond_wait inserts a waiter into the waiters list based on priority. Each waiter has a binary 
+semaphore to block the current thread in cond_wait(sema_down) as well as unblock/wake(sema_up) 
+its associated thread when the cond’s highest priority waiter is chosen from its waiters list 
+in cond_signal.
 
 
 >> B3: Describe the sequence of events when a call to lock_acquire()
 >> causes a priority donation.  How is nested donation handled?
 >>
+Priority donation is needed when a higher priority thread is blocked 
+waiting for a lock held by a lower priority thread. In lock_acquire, 
+if there’s already a thread on the lock,we use a while loop set on the
+condition to run while the current holder of the lock is not null. We
+set the current thread’s lock_waiting element (which tracks the lock 
+it’s waiting on) to this lock. The loop checks if the current holder’s
+priority is less than the current thread’s priority, in which case 
+the current holder’s priority is updated. (Using thread_update_priority, 
+its place in the ready queue is updated as well.) We then check if the 
+current holder itself is waiting for a lock (using lock_waiting), in which
+case we update the current holder tracker to that lock’s holder, and continue
+this loop until all nested donations necessary have been given. If the 
+current holder isn’t waiting for a lock, then the current holder is set 
+to null to stop the loop.
 
 
 >> B4: Describe the sequence of events when lock_release() is called
 >> on a lock on which a higher-priority thread is waiting.  What happens to
 >> the priority of the thread releasing the lock?
 >>
-
+When lock_release is called, sema_up is used on the lock’s semaphore to free 
+it up (where the highest priority thread waiting for the lock is chosen to be 
+unblocked onto the ready queue and yielded to if necessary), and the lock is 
+removed from the lock list of the thread releasing the lock. The thread releasing
+the lock (now that its donation priority for this lock has been revoked) then 
+iterates through all the locks in its lock list and the threads in those locks’ 
+semaphore.waiters, comparing its priority with each one to eventually assign the 
+highest of those priorities to the priority of the thread releasing the lock 
+(thread_set_priority_donate is used here to assign the new priority and yield 
+in case this thread no longer has the highest priority). The lock’s holder element
+is also set to null to release the lock.
 
 ---- SYNCHRONIZATION ----
 
