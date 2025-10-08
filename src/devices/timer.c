@@ -90,12 +90,12 @@ bool compare_wake_tick (const struct list_elem *a, const struct list_elem *b, vo
    be turned on. */
 void timer_sleep (int64_t ticks)
 {
-  int64_t start = timer_ticks();
+
 
   ASSERT (intr_get_level () == INTR_ON);
 
-  enum intr_level old_level = intr_disable();
-
+  enum intr_level old_level = intr_disable ();
+  int64_t start = timer_ticks();
   //calculate ticks and store in thread
   thread_current()->wake_tick = start + ticks;
   list_insert_ordered(&sleep_list, &thread_current()->sleep_elem, (list_less_func *) compare_wake_tick, NULL);
@@ -149,22 +149,13 @@ void timer_print_stats (void)
   printf ("Timer: %" PRId64 " ticks\n", timer_ticks ());
 }
 
-// void check_wake_up(struct thread *t)
-// {
-//   if (t->wake_tick <= timer_ticks()) {
-//     list_remove(&t->elem);  
-//     t->wake_tick = 0;          
-//     sema_up(&t->sema);
-//   }
-// }
 
 /* Timer interrupt handler. */
 static void timer_interrupt (struct intr_frame *args UNUSED)
 {
   ticks++;
 
-  /* Because the list is sorted, check only from the front.
-     This also elegantly solves the "modifying while iterating" bug. */
+  //check list from front
   while (!list_empty(&sleep_list))
   {
     struct thread *t = list_entry(list_front(&sleep_list), struct thread, sleep_elem);
