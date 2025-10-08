@@ -1,0 +1,699 @@
+00000000000i[      ] Bochs x86 Emulator 2.6.11
+00000000000i[      ]   Built from SVN snapshot on January 5, 2020
+00000000000i[      ]   Timestamp: Sun Jan  5 08:36:00 CET 2020
+00000000000i[      ] System configuration
+00000000000i[      ]   processors: 1 (cores=1, HT threads=1)
+00000000000i[      ]   A20 line support: yes
+00000000000i[      ] IPS is set to 1000000
+00000000000i[      ] CPU configuration
+00000000000i[      ]   SMP support: no
+00000000000i[      ]   level: 6
+00000000000i[      ]   APIC support: xapic
+00000000000i[      ]   FPU support: yes
+00000000000i[      ]   MMX support: yes
+00000000000i[      ]   3dnow! support: no
+00000000000i[      ]   SEP support: yes
+00000000000i[      ]   SIMD support: sse2
+00000000000i[      ]   XSAVE support: no 
+00000000000i[      ]   AES support: no
+00000000000i[      ]   SHA support: no
+00000000000i[      ]   MOVBE support: no
+00000000000i[      ]   ADX support: no
+00000000000i[      ]   x86-64 support: no
+00000000000i[      ]   MWAIT support: yes
+00000000000i[      ] Optimization configuration
+00000000000i[      ]   RepeatSpeedups support: no
+00000000000i[      ]   Fast function calls: no
+00000000000i[      ]   Handlers Chaining speedups: no
+00000000000i[      ] Devices configuration
+00000000000i[      ]   PCI support: i440FX i430FX i440BX
+00000000000i[      ]   Networking: no
+00000000000i[      ]   Sound support: no
+00000000000i[      ]   USB support: no
+00000000000i[      ]   VGA extension support: vbe
+00000000000i[MEM0  ] allocated memory at 0x7fac03c00010. after alignment, vector=0x7fac03c01000
+00000000000i[MEM0  ] 4.00MB
+00000000000i[MEM0  ] mem block size = 0x00020000, blocks=32
+00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/v/filer5b/v26q010/libraries/bochs-2.6.11/share/bochs/BIOS-bochs-latest')
+00000000000i[PLUGIN] init_dev of 'pci' plugin device by virtual method
+00000000000i[DEV   ] i440FX PMC present at device 0, function 0
+00000000000i[PLUGIN] init_dev of 'pci2isa' plugin device by virtual method
+00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
+00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
+00000000000i[CMOS  ] Using specified time for initial clock
+00000000000i[CMOS  ] Setting initial clock to: Wed Dec 31 18:00:00 1969 (time0=0)
+00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
+00000000000i[DMA   ] channel 4 used by cascade
+00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
+00000000000i[PLUGIN] init_dev of 'pit' plugin device by virtual method
+00000000000i[PLUGIN] init_dev of 'vga' plugin device by virtual method
+00000000000i[MEM0  ] Register memory access handlers: 0x0000000a0000 - 0x0000000bffff
+00000000000i[VGA   ] interval=200000, mode=realtime
+00000000000i[VGA   ] VSYNC using standard mode
+00000000000i[MEM0  ] Register memory access handlers: 0x0000e0000000 - 0x0000e0ffffff
+00000000000i[BXVGA ] VBE Bochs Display Extension Enabled
+00000000000i[MEM0  ] rom at 0xc0000/41984 ('/v/filer5b/v26q010/libraries/bochs-2.6.11/share/bochs/VGABIOS-lgpl-latest')
+00000000000i[PLUGIN] init_dev of 'floppy' plugin device by virtual method
+00000000000i[DMA   ] channel 2 used by Floppy Drive
+00000000000i[FLOPPY] Using boot sequence disk, none, none
+00000000000i[FLOPPY] Floppy boot signature check is enabled
+00000000000i[PLUGIN] init_dev of 'acpi' plugin device by virtual method
+00000000000i[DEV   ] ACPI Controller present at device 1, function 3
+00000000000i[PLUGIN] init_dev of 'hpet' plugin device by virtual method
+00000000000i[HPET  ] initializing HPET
+00000000000i[MEM0  ] Register memory access handlers: 0x0000fed00000 - 0x0000fed003ff
+00000000000i[PLUGIN] init_dev of 'ioapic' plugin device by virtual method
+00000000000i[IOAPIC] initializing I/O APIC
+00000000000i[MEM0  ] Register memory access handlers: 0x0000fec00000 - 0x0000fec00fff
+00000000000i[IOAPIC] IOAPIC enabled (base address = 0xfec00000)
+00000000000i[PLUGIN] init_dev of 'keyboard' plugin device by virtual method
+00000000000i[KBD   ] will paste characters every 400 keyboard ticks
+00000000000i[PLUGIN] init_dev of 'harddrv' plugin device by virtual method
+00000000000i[HD    ] HD on ata0-0: '/tmp/8g5AWsyiGq.dsk', 'flat' mode
+00000000000i[IMG   ] hd_size: 2580480
+00000000000i[HD    ] ata0-0: using specified geometry: CHS=5/16/63 (sector size=512)
+00000000000i[PLUGIN] init_dev of 'pci_ide' plugin device by virtual method
+00000000000i[DEV   ] PIIX3 PCI IDE controller present at device 1, function 1
+00000000000i[PLUGIN] init_dev of 'unmapped' plugin device by virtual method
+00000000000i[PLUGIN] init_dev of 'biosdev' plugin device by virtual method
+00000000000i[PLUGIN] init_dev of 'speaker' plugin device by virtual method
+00000000000e[PCSPK ] Failed to open /dev/console: Permission denied
+00000000000e[PCSPK ] Deactivating beep on console
+00000000000i[PLUGIN] init_dev of 'extfpuirq' plugin device by virtual method
+00000000000i[PLUGIN] init_dev of 'parallel' plugin device by virtual method
+00000000000i[PAR   ] parallel port 1 at 0x0378 irq 7
+00000000000i[PLUGIN] init_dev of 'serial' plugin device by virtual method
+00000000000i[SER   ] com1 at 0x03f8 irq 4 (mode: term)
+00000000000i[PLUGIN] register state of 'pci' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'pci2isa' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'cmos' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'dma' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'pic' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'pit' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'vga' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'floppy' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'unmapped' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'biosdev' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'speaker' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'extfpuirq' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'parallel' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'serial' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'acpi' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'hpet' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'ioapic' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'keyboard' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'harddrv' plugin device by virtual method
+00000000000i[PLUGIN] register state of 'pci_ide' plugin device by virtual method
+00000000000i[SYS   ] bx_pc_system_c::Reset(HARDWARE) called
+00000000000i[CPU0  ] cpu hardware reset
+00000000000i[APIC0 ] allocate APIC id=0 (MMIO enabled) to 0x0000fee00000
+00000000000i[CPU0  ] CPUID[0x00000000]: 00000005 756e6547 6c65746e 49656e69
+00000000000i[CPU0  ] CPUID[0x00000001]: 00000633 00010800 00000008 1fcbfbff
+00000000000i[CPU0  ] CPUID[0x00000002]: 00410601 00000000 00000000 00000000
+00000000000i[CPU0  ] CPUID[0x00000003]: 00000000 00000000 00000000 00000000
+00000000000i[CPU0  ] CPUID[0x00000004]: 00000000 00000000 00000000 00000000
+00000000000i[CPU0  ] CPUID[0x00000005]: 00000040 00000040 00000003 00000020
+00000000000i[CPU0  ] CPUID[0x80000000]: 80000008 00000000 00000000 00000000
+00000000000i[CPU0  ] CPUID[0x80000001]: 00000000 00000000 00000000 00000000
+00000000000i[CPU0  ] CPUID[0x80000002]: 20202020 20202020 20202020 6e492020
+00000000000i[CPU0  ] CPUID[0x80000003]: 286c6574 50202952 69746e65 52286d75
+00000000000i[CPU0  ] CPUID[0x80000004]: 20342029 20555043 20202020 00202020
+00000000000i[CPU0  ] CPUID[0x80000005]: 01ff01ff 01ff01ff 40020140 40020140
+00000000000i[CPU0  ] CPUID[0x80000006]: 00000000 42004200 02008140 00000000
+00000000000i[CPU0  ] CPUID[0x80000007]: 00000000 00000000 00000000 00000000
+00000000000i[CPU0  ] CPUID[0x80000008]: 00002028 00000000 00000000 00000000
+00000000000i[CPU0  ] CPU Features supported:
+00000000000i[CPU0  ] 		x87
+00000000000i[CPU0  ] 		486ni
+00000000000i[CPU0  ] 		pentium_ni
+00000000000i[CPU0  ] 		p6ni
+00000000000i[CPU0  ] 		mmx
+00000000000i[CPU0  ] 		debugext
+00000000000i[CPU0  ] 		vme
+00000000000i[CPU0  ] 		pse
+00000000000i[CPU0  ] 		pae
+00000000000i[CPU0  ] 		pge
+00000000000i[CPU0  ] 		pse36
+00000000000i[CPU0  ] 		mtrr
+00000000000i[CPU0  ] 		pat
+00000000000i[CPU0  ] 		sysenter_sysexit
+00000000000i[CPU0  ] 		clflush
+00000000000i[CPU0  ] 		sse
+00000000000i[CPU0  ] 		sse2
+00000000000i[CPU0  ] 		mwait
+00000000000i[CPU0  ] 		xapic
+00000000000i[PLUGIN] reset of 'pci' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'pci2isa' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'cmos' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'dma' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'pic' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'pit' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'vga' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'floppy' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'acpi' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'hpet' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'ioapic' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'keyboard' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'harddrv' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'pci_ide' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'unmapped' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'biosdev' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'speaker' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'extfpuirq' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'parallel' plugin device by virtual method
+00000000000i[PLUGIN] reset of 'serial' plugin device by virtual method
+00000004662i[BIOS  ] $Revision: 13752 $ $Date: 2019-12-30 14:16:18 +0100 (Mon, 30 Dec 2019) $
+00000317062i[KBD   ] reset-disable command received
+00000318319i[BIOS  ] Starting rombios32
+00000318757i[BIOS  ] Shutdown flag 0
+00000319335i[BIOS  ] ram_size=0x00400000
+00000319735i[BIOS  ] ram_end=4MB
+00000330739i[BIOS  ] Found 1 cpu(s)
+00000344391i[BIOS  ] bios_table_addr: 0x000f9db8 end=0x000fcc00
+00000672212i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001000142i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
+00001000161i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
+00001000180i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
+00001000199i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
+00001000209i[P2ISA ] write: ELCR2 = 0x0a
+00001000979i[BIOS  ] PIIX3/PIIX4 init: elcr=00 0a
+00001014603i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
+00001016916i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
+00001019068i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
+00001019303i[PIDE  ] BAR #4: i/o base address = 0xc000
+00001019919i[BIOS  ] region 4: 0x0000c000
+00001021984i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
+00001022228i[ACPI  ] new IRQ line = 11
+00001022242i[ACPI  ] new IRQ line = 9
+00001022269i[ACPI  ] new PM base address: 0xb000
+00001022283i[ACPI  ] new SM base address: 0xb100
+00001022311i[PCI   ] setting SMRAM control register to 0x4a
+00001186404i[CPU0  ] Enter to System Management Mode
+00001186415i[CPU0  ] RSM: Resuming from System Management Mode
+00001350436i[PCI   ] setting SMRAM control register to 0x0a
+00001377110i[BIOS  ] MP table addr=0x000f9e90 MPC table addr=0x000f9dc0 size=0xc8
+00001378981i[BIOS  ] SMBIOS table addr=0x000f9ea0
+00001381154i[BIOS  ] ACPI tables: RSDP addr=0x000f9fd0 ACPI DATA addr=0x003f0000 size=0xff8
+00001384379i[BIOS  ] Firmware waking vector 0x3f00cc
+00001386859i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001387582i[BIOS  ] bios_table_cur_addr: 0x000f9ff4
+00001516453i[VBIOS ] VGABios $Id: vgabios.c 226 2020-01-02 21:36:23Z vruppert $
+00001516524i[BXVGA ] VBE known Display Interface b0c0
+00001516556i[BXVGA ] VBE known Display Interface b0c5
+00001519199i[VBIOS ] VBE Bios $Id: vbe.c 228 2020-01-02 23:09:02Z vruppert $
+00001866734i[BIOS  ] ata0-0: PCHS=5/16/63 translation=none LCHS=5/16/63
+00005314961i[BIOS  ] IDE time out
+00008382045i[BIOS  ] Booting from 0000:7c00
+00127459359i[NOGUI ] ips = 127.459M
+00270177530i[NOGUI ] ips = 142.718M
+00395156250i[NOGUI ] ips = 124.979M
+00519868263i[NOGUI ] ips = 124.712M
+00644446061i[NOGUI ] ips = 124.578M
+00769165584i[NOGUI ] ips = 124.720M
+00893712088i[NOGUI ] ips = 124.547M
+01018286331i[NOGUI ] ips = 124.574M
+01142749957i[NOGUI ] ips = 124.464M
+01267172022i[NOGUI ] ips = 124.422M
+01391800044i[NOGUI ] ips = 124.628M
+01516390234i[NOGUI ] ips = 124.590M
+01626985719i[NOGUI ] ips = 110.595M
+01750498083i[NOGUI ] ips = 123.512M
+01873917316i[NOGUI ] ips = 123.419M
+01997908007i[NOGUI ] ips = 123.991M
+02122926202i[NOGUI ] ips = 125.018M
+02246969476i[NOGUI ] ips = 124.043M
+02371949079i[NOGUI ] ips = 124.980M
+02496700025i[NOGUI ] ips = 124.751M
+02620084694i[NOGUI ] ips = 123.385M
+02744532984i[NOGUI ] ips = 124.448M
+02869765659i[NOGUI ] ips = 125.233M
+03002962575i[NOGUI ] ips = 133.197M
+03127664983i[NOGUI ] ips = 124.702M
+03253432931i[NOGUI ] ips = 125.768M
+03382548202i[NOGUI ] ips = 129.115M
+03506930588i[NOGUI ] ips = 124.382M
+03631480312i[NOGUI ] ips = 124.550M
+03756025771i[NOGUI ] ips = 124.545M
+03880818615i[NOGUI ] ips = 124.793M
+04005426850i[NOGUI ] ips = 124.608M
+04130219305i[NOGUI ] ips = 124.792M
+04254936074i[NOGUI ] ips = 124.717M
+04379237782i[NOGUI ] ips = 124.302M
+04486668968i[NOGUI ] ips = 107.431M
+04588130315i[NOGUI ] ips = 101.461M
+04694079798i[NOGUI ] ips = 105.949M
+04818723523i[NOGUI ] ips = 124.644M
+04943528433i[NOGUI ] ips = 124.805M
+05068132877i[NOGUI ] ips = 124.604M
+05192816365i[NOGUI ] ips = 124.683M
+05317381905i[NOGUI ] ips = 124.566M
+05441955586i[NOGUI ] ips = 124.574M
+05567102956i[NOGUI ] ips = 125.147M
+05691540046i[NOGUI ] ips = 124.437M
+05816011445i[NOGUI ] ips = 124.471M
+05940800979i[NOGUI ] ips = 124.790M
+06065489801i[NOGUI ] ips = 124.689M
+06190166095i[NOGUI ] ips = 124.676M
+06314882689i[NOGUI ] ips = 124.717M
+06439502914i[NOGUI ] ips = 124.620M
+06563860919i[NOGUI ] ips = 124.358M
+06688525321i[NOGUI ] ips = 124.664M
+06813162388i[NOGUI ] ips = 124.637M
+06938225950i[NOGUI ] ips = 125.064M
+07062851130i[NOGUI ] ips = 124.625M
+07187443277i[NOGUI ] ips = 124.592M
+07312349779i[NOGUI ] ips = 124.907M
+07436958856i[NOGUI ] ips = 124.609M
+07561220984i[NOGUI ] ips = 124.262M
+07685868853i[NOGUI ] ips = 124.648M
+07810378509i[NOGUI ] ips = 124.510M
+07935019245i[NOGUI ] ips = 124.641M
+08059609523i[NOGUI ] ips = 124.590M
+08184213909i[NOGUI ] ips = 124.604M
+08317226675i[NOGUI ] ips = 133.013M
+08441764021i[NOGUI ] ips = 124.537M
+08566430615i[NOGUI ] ips = 124.667M
+08691119256i[NOGUI ] ips = 124.689M
+08817385192i[NOGUI ] ips = 126.266M
+08944608978i[NOGUI ] ips = 127.224M
+09072392504i[NOGUI ] ips = 127.784M
+09196988893i[NOGUI ] ips = 124.596M
+09321569113i[NOGUI ] ips = 124.580M
+09446287025i[NOGUI ] ips = 124.718M
+09571016196i[NOGUI ] ips = 124.729M
+09695708411i[NOGUI ] ips = 124.692M
+09820437385i[NOGUI ] ips = 124.729M
+09945224265i[NOGUI ] ips = 124.787M
+10069960290i[NOGUI ] ips = 124.736M
+10194733420i[NOGUI ] ips = 124.773M
+10319396546i[NOGUI ] ips = 124.663M
+10444153833i[NOGUI ] ips = 124.757M
+10568832722i[NOGUI ] ips = 124.679M
+10693471299i[NOGUI ] ips = 124.639M
+10814467297i[NOGUI ] ips = 120.996M
+10922543115i[NOGUI ] ips = 108.076M
+11047263589i[NOGUI ] ips = 124.720M
+11171905129i[NOGUI ] ips = 124.642M
+11296688689i[NOGUI ] ips = 124.784M
+11421083532i[NOGUI ] ips = 124.395M
+11545853105i[NOGUI ] ips = 124.770M
+11670841294i[NOGUI ] ips = 124.988M
+11795843298i[NOGUI ] ips = 125.002M
+11920701514i[NOGUI ] ips = 124.858M
+12047942829i[NOGUI ] ips = 127.241M
+12172583165i[NOGUI ] ips = 124.640M
+12297274475i[NOGUI ] ips = 124.691M
+12422156330i[NOGUI ] ips = 124.882M
+12546714509i[NOGUI ] ips = 124.558M
+12671178227i[NOGUI ] ips = 124.464M
+12793123968i[NOGUI ] ips = 121.946M
+12896453222i[NOGUI ] ips = 103.329M
+13021203461i[NOGUI ] ips = 124.750M
+13145641846i[NOGUI ] ips = 124.438M
+13270038945i[NOGUI ] ips = 124.397M
+13394739238i[NOGUI ] ips = 124.700M
+13519451000i[NOGUI ] ips = 124.712M
+13644015796i[NOGUI ] ips = 124.565M
+13768472137i[NOGUI ] ips = 124.456M
+13893122078i[NOGUI ] ips = 124.650M
+14017811624i[NOGUI ] ips = 124.690M
+14142510245i[NOGUI ] ips = 124.699M
+14267200353i[NOGUI ] ips = 124.690M
+14392084828i[NOGUI ] ips = 124.884M
+14516768975i[NOGUI ] ips = 124.684M
+14641527646i[NOGUI ] ips = 124.759M
+14766082751i[NOGUI ] ips = 124.555M
+14890434889i[NOGUI ] ips = 124.352M
+15014889405i[NOGUI ] ips = 124.455M
+15138996591i[NOGUI ] ips = 124.107M
+15263518259i[NOGUI ] ips = 124.522M
+15388165697i[NOGUI ] ips = 124.647M
+15512749739i[NOGUI ] ips = 124.584M
+15637305617i[NOGUI ] ips = 124.556M
+15761901944i[NOGUI ] ips = 124.596M
+15886497207i[NOGUI ] ips = 124.595M
+16011389445i[NOGUI ] ips = 124.892M
+16122251108i[NOGUI ] ips = 110.862M
+16246744360i[NOGUI ] ips = 124.493M
+16371578693i[NOGUI ] ips = 124.834M
+16496310491i[NOGUI ] ips = 124.732M
+16621107623i[NOGUI ] ips = 124.797M
+16742957251i[NOGUI ] ips = 121.850M
+16848132097i[NOGUI ] ips = 105.175M
+16973019455i[NOGUI ] ips = 124.887M
+17097743729i[NOGUI ] ips = 124.724M
+17222933600i[NOGUI ] ips = 125.190M
+17347469578i[NOGUI ] ips = 124.536M
+17472071807i[NOGUI ] ips = 124.602M
+17594124850i[NOGUI ] ips = 122.053M
+17698105375i[NOGUI ] ips = 103.981M
+17800956320i[NOGUI ] ips = 102.851M
+17924579541i[NOGUI ] ips = 123.623M
+18065219088i[NOGUI ] ips = 140.640M
+18201529087i[NOGUI ] ips = 136.310M
+18345669697i[NOGUI ] ips = 144.141M
+18479666192i[NOGUI ] ips = 133.996M
+18608741059i[NOGUI ] ips = 129.075M
+18731869699i[NOGUI ] ips = 123.129M
+18835557324i[NOGUI ] ips = 103.688M
+18978077744i[NOGUI ] ips = 142.520M
+19115774990i[NOGUI ] ips = 137.697M
+19246843000i[NOGUI ] ips = 131.068M
+19374161967i[NOGUI ] ips = 127.319M
+19522101141i[NOGUI ] ips = 147.939M
+19674907772i[NOGUI ] ips = 152.807M
+19815600000i[NOGUI ] ips = 140.692M
+19971297966i[NOGUI ] ips = 155.698M
+20126025685i[NOGUI ] ips = 154.728M
+20257705110i[NOGUI ] ips = 131.679M
+20400146661i[NOGUI ] ips = 142.442M
+20541751099i[NOGUI ] ips = 141.604M
+20666814551i[NOGUI ] ips = 125.063M
+20796190287i[NOGUI ] ips = 129.376M
+20931672206i[NOGUI ] ips = 135.482M
+21040352125i[NOGUI ] ips = 108.680M
+21151332833i[NOGUI ] ips = 110.981M
+21255261374i[NOGUI ] ips = 103.929M
+21359470924i[NOGUI ] ips = 104.210M
+21463859255i[NOGUI ] ips = 104.388M
+21573746870i[NOGUI ] ips = 109.888M
+21691910784i[NOGUI ] ips = 118.164M
+21827975138i[NOGUI ] ips = 136.064M
+21959154714i[NOGUI ] ips = 131.180M
+22090522767i[NOGUI ] ips = 131.368M
+22228965791i[NOGUI ] ips = 138.443M
+22367974724i[NOGUI ] ips = 139.009M
+22527479080i[NOGUI ] ips = 159.504M
+22677325068i[NOGUI ] ips = 149.846M
+22821034050i[NOGUI ] ips = 143.709M
+22932056610i[NOGUI ] ips = 111.023M
+23048637124i[NOGUI ] ips = 116.581M
+23175239411i[NOGUI ] ips = 126.602M
+23303041793i[NOGUI ] ips = 127.802M
+23431442068i[NOGUI ] ips = 128.400M
+23567046803i[NOGUI ] ips = 135.605M
+23700709029i[NOGUI ] ips = 133.662M
+23845425421i[NOGUI ] ips = 144.716M
+23968979958i[NOGUI ] ips = 123.555M
+24092578068i[NOGUI ] ips = 123.598M
+24214910606i[NOGUI ] ips = 122.333M
+24337496530i[NOGUI ] ips = 122.586M
+24459996115i[NOGUI ] ips = 122.500M
+24582579446i[NOGUI ] ips = 122.583M
+24718309148i[NOGUI ] ips = 135.730M
+24848294730i[NOGUI ] ips = 129.986M
+24975188400i[NOGUI ] ips = 126.894M
+25106121504i[NOGUI ] ips = 130.933M
+25236049329i[NOGUI ] ips = 129.928M
+25369513019i[NOGUI ] ips = 133.464M
+25500089655i[NOGUI ] ips = 130.577M
+25629452548i[NOGUI ] ips = 129.363M
+25762299233i[NOGUI ] ips = 132.847M
+25038706709i[NOGUI ] ips = 123.326M
+25162155201i[NOGUI ] ips = 123.448M
+25285618964i[NOGUI ] ips = 123.464M
+25409061929i[NOGUI ] ips = 123.443M
+25532680566i[NOGUI ] ips = 123.619M
+25656053864i[NOGUI ] ips = 123.373M
+25779420648i[NOGUI ] ips = 123.367M
+25902969553i[NOGUI ] ips = 123.549M
+26026363227i[NOGUI ] ips = 123.394M
+26149864915i[NOGUI ] ips = 123.502M
+26273395035i[NOGUI ] ips = 123.530M
+26398032338i[NOGUI ] ips = 124.637M
+27195038008i[NOGUI ] ips = 123.632M
+27319029237i[NOGUI ] ips = 123.991M
+27443587844i[NOGUI ] ips = 124.559M
+27567178908i[NOGUI ] ips = 123.591M
+27690737480i[NOGUI ] ips = 123.559M
+27814209465i[NOGUI ] ips = 123.472M
+27937762005i[NOGUI ] ips = 123.553M
+28061363829i[NOGUI ] ips = 123.602M
+28185408978i[NOGUI ] ips = 124.045M
+28308984920i[NOGUI ] ips = 123.576M
+28432454519i[NOGUI ] ips = 123.470M
+28556067890i[NOGUI ] ips = 123.613M
+28679553941i[NOGUI ] ips = 123.486M
+28803146342i[NOGUI ] ips = 123.592M
+28926551462i[NOGUI ] ips = 123.405M
+29050017442i[NOGUI ] ips = 123.466M
+29173432929i[NOGUI ] ips = 123.415M
+29297277566i[NOGUI ] ips = 123.845M
+29421989255i[NOGUI ] ips = 124.712M
+29546710575i[NOGUI ] ips = 124.721M
+29671313805i[NOGUI ] ips = 124.603M
+29796017755i[NOGUI ] ips = 124.704M
+29920387410i[NOGUI ] ips = 124.370M
+30045138509i[NOGUI ] ips = 124.751M
+30169744148i[NOGUI ] ips = 124.606M
+30294224379i[NOGUI ] ips = 124.480M
+30418800296i[NOGUI ] ips = 124.576M
+30523542442i[NOGUI ] ips = 104.742M
+30627499871i[NOGUI ] ips = 103.957M
+30729908914i[NOGUI ] ips = 102.409M
+30834647199i[NOGUI ] ips = 104.738M
+30957222182i[NOGUI ] ips = 122.575M
+31081954577i[NOGUI ] ips = 124.732M
+31206625737i[NOGUI ] ips = 124.671M
+31331303345i[NOGUI ] ips = 124.678M
+31455976021i[NOGUI ] ips = 124.673M
+31600869128i[NOGUI ] ips = 144.893M
+31730712767i[NOGUI ] ips = 129.844M
+31855363893i[NOGUI ] ips = 124.651M
+31979847024i[NOGUI ] ips = 124.483M
+32104403191i[NOGUI ] ips = 124.556M
+32228837657i[NOGUI ] ips = 124.434M
+32353145071i[NOGUI ] ips = 124.307M
+32477539683i[NOGUI ] ips = 124.395M
+32602038696i[NOGUI ] ips = 124.499M
+32726493105i[NOGUI ] ips = 124.454M
+32851166270i[NOGUI ] ips = 124.673M
+32975511667i[NOGUI ] ips = 124.345M
+33100365886i[NOGUI ] ips = 124.854M
+33225031490i[NOGUI ] ips = 124.666M
+33349321005i[NOGUI ] ips = 124.290M
+33473741703i[NOGUI ] ips = 124.421M
+33598238210i[NOGUI ] ips = 124.497M
+33722882681i[NOGUI ] ips = 124.644M
+33847409624i[NOGUI ] ips = 124.527M
+33971819304i[NOGUI ] ips = 124.410M
+34096060505i[NOGUI ] ips = 124.241M
+34220199760i[NOGUI ] ips = 124.139M
+34344680372i[NOGUI ] ips = 124.481M
+34469236446i[NOGUI ] ips = 124.556M
+34593852512i[NOGUI ] ips = 124.616M
+34704996632i[NOGUI ] ips = 111.144M
+34805817690i[NOGUI ] ips = 100.821M
+34927968733i[NOGUI ] ips = 122.151M
+35052688251i[NOGUI ] ips = 124.720M
+35178564616i[NOGUI ] ips = 125.876M
+35305199771i[NOGUI ] ips = 126.635M
+35429825107i[NOGUI ] ips = 124.625M
+35554317764i[NOGUI ] ips = 124.493M
+35678897517i[NOGUI ] ips = 124.580M
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                48621760534i[NOGUI ] ips = 133.752M
+48745347514i[NOGUI ] ips = 123.587M
+48870124328i[NOGUI ] ips = 124.777M
+48994723951i[NOGUI ] ips = 124.600M
+49119164004i[NOGUI ] ips = 124.440M
+49243640169i[NOGUI ] ips = 124.476M
+49368198666i[NOGUI ] ips = 124.558M
+49492809536i[NOGUI ] ips = 124.611M
+49617311152i[NOGUI ] ips = 124.502M
+49741799634i[NOGUI ] ips = 124.488M
+49866247541i[NOGUI ] ips = 124.448M
+49989955181i[NOGUI ] ips = 123.708M
+50113116885i[NOGUI ] ips = 123.162M
+50238191067i[NOGUI ] ips = 125.074M
+50358196976i[NOGUI ] ips = 120.006M
+50481462399i[NOGUI ] ips = 123.265M
+50605973133i[NOGUI ] ips = 124.511M
+50730893744i[NOGUI ] ips = 124.921M
+50855496615i[NOGUI ] ips = 124.603M
+50980189930i[NOGUI ] ips = 124.693M
+51104711215i[NOGUI ] ips = 124.521M
+51226116119i[NOGUI ] ips = 121.405M
+51349189887i[NOGUI ] ips = 123.074M
+51473808320i[NOGUI ] ips = 124.618M
+51599033715i[NOGUI ] ips = 125.225M
+51739049827i[NOGUI ] ips = 140.016M
+51862541478i[NOGUI ] ips = 123.492M
+51986075069i[NOGUI ] ips = 123.534M
+52109489608i[NOGUI ] ips = 123.415M
+52233263408i[NOGUI ] ips = 123.774M
+52356849233i[NOGUI ] ips = 123.586M
+52480608878i[NOGUI ] ips = 123.760M
+52604151095i[NOGUI ] ips = 123.542M
+52728050016i[NOGUI ] ips = 123.899M
+52851551673i[NOGUI ] ips = 123.502M
+52974972448i[NOGUI ] ips = 123.421M
+53098483521i[NOGUI ] ips = 123.511M
+53222313909i[NOGUI ] ips = 123.830M
+53345829929i[NOGUI ] ips = 123.516M
+53469149627i[NOGUI ] ips = 123.320M
+53592724254i[NOGUI ] ips = 123.575M
+53716183286i[NOGUI ] ips = 123.459M
+53839758813i[NOGUI ] ips = 123.576M
+53963310744i[NOGUI ] ips = 123.552M
+54086757980i[NOGUI ] ips = 123.447M
+54210378806i[NOGUI ] ips = 123.621M
+54333860250i[NOGUI ] ips = 123.481M
+54457380044i[NOGUI ] ips = 123.520M
+54580828583i[NOGUI ] ips = 123.449M
+54704351057i[NOGUI ] ips = 123.522M
+54827906658i[NOGUI ] ips = 123.556M
+54951445624i[NOGUI ] ips = 123.539M
+55074863382i[NOGUI ] ips = 123.418M
+55198254029i[NOGUI ] ips = 123.391M
+55321693160i[NOGUI ] ips = 123.439M
+55445089761i[NOGUI ] ips = 123.397M
+55568944027i[NOGUI ] ips = 123.854M
+55692491140i[NOGUI ] ips = 123.547M
+55815963247i[NOGUI ] ips = 123.472M
+55939833071i[NOGUI ] ips = 123.870M
+56063369059i[NOGUI ] ips = 123.536M
+56186249891i[NOGUI ] ips = 122.881M
+56309918537i[NOGUI ] ips = 123.669M
+56433466541i[NOGUI ] ips = 123.548M
+56556857805i[NOGUI ] ips = 123.391M
+56680363309i[NOGUI ] ips = 123.506M
+56803960416i[NOGUI ] ips = 123.597M
+56927511747i[NOGUI ] ips = 123.551M
+57051227667i[NOGUI ] ips = 123.716M
+57174923877i[NOGUI ] ips = 123.696M
+57298436130i[NOGUI ] ips = 123.512M
+57421856724i[NOGUI ] ips = 123.421M
+57545354540i[NOGUI ] ips = 123.498M
+57668804576i[NOGUI ] ips = 123.450M
+57792358244i[NOGUI ] ips = 123.554M
+57915805015i[NOGUI ] ips = 123.447M
+58039424704i[NOGUI ] ips = 123.620M
+58163203645i[NOGUI ] ips = 123.779M
+58286731990i[NOGUI ] ips = 123.528M
+58410333969i[NOGUI ] ips = 123.602M
+58533927983i[NOGUI ] ips = 123.594M
+58657394861i[NOGUI ] ips = 123.467M
+58780738497i[NOGUI ] ips = 123.344M
+58904119687i[NOGUI ] ips = 123.381M
+59027520816i[NOGUI ] ips = 123.401M
+59150967424i[NOGUI ] ips = 123.447M
+59274557442i[NOGUI ] ips = 123.590M
+59398198320i[NOGUI ] ips = 123.641M
+59521615853i[NOGUI ] ips = 123.418M
+59645036689i[NOGUI ] ips = 123.421M
+59768413709i[NOGUI ] ips = 123.377M
+59891833353i[NOGUI ] ips = 123.420M
+60014830212i[NOGUI ] ips = 122.997M
+60138283148i[NOGUI ] ips = 123.453M
+60262149423i[NOGUI ] ips = 123.866M
+60385856855i[NOGUI ] ips = 123.707M
+60509249387i[NOGUI ] ips = 123.393M
+60632719149i[NOGUI ] ips = 123.470M
+60756082704i[NOGUI ] ips = 123.364M
+60879419518i[NOGUI ] ips = 123.337M
+61002937166i[NOGUI ] ips = 123.518M
+61126555305i[NOGUI ] ips = 123.618M
+61250109916i[NOGUI ] ips = 123.555M
+61373744946i[NOGUI ] ips = 123.635M
+61497327962i[NOGUI ] ips = 123.583M
+61621148638i[NOGUI ] ips = 123.821M
+61744862016i[NOGUI ] ips = 123.713M
+61868337815i[NOGUI ] ips = 123.476M
+61991960552i[NOGUI ] ips = 123.623M
+62115436006i[NOGUI ] ips = 123.475M
+62238920646i[NOGUI ] ips = 123.485M
+62362706079i[NOGUI ] ips = 123.785M
+62486308138i[NOGUI ] ips = 123.602M
+62609910851i[NOGUI ] ips = 123.603M
+62733365850i[NOGUI ] ips = 123.455M
+62856781735i[NOGUI ] ips = 123.416M
+62980465760i[NOGUI ] ips = 123.684M
+63104060360i[NOGUI ] ips = 123.595M
+63227647648i[NOGUI ] ips = 123.587M
+63351169294i[NOGUI ] ips = 123.522M
+63474245889i[NOGUI ] ips = 123.077M
+63597646508i[NOGUI ] ips = 123.401M
+63720480020i[NOGUI ] ips = 122.834M
+63843819490i[NOGUI ] ips = 123.339M
+63967217713i[NOGUI ] ips = 123.398M
+64090796530i[NOGUI ] ips = 123.579M
+64214343581i[NOGUI ] ips = 123.547M
+64337741470i[NOGUI ] ips = 123.398M
+64461322934i[NOGUI ] ips = 123.581M
+64585737308i[NOGUI ] ips = 124.414M
+64710468577i[NOGUI ] ips = 124.731M
+64834949468i[NOGUI ] ips = 124.481M
+64959535560i[NOGUI ] ips = 124.586M
+65084021378i[NOGUI ] ips = 124.486M
+65208605891i[NOGUI ] ips = 124.585M
+65333169618i[NOGUI ] ips = 124.564M
+65457563384i[NOGUI ] ips = 124.394M
+65582429024i[NOGUI ] ips = 124.866M
+65707458343i[NOGUI ] ips = 125.029M
+65832386184i[NOGUI ] ips = 124.928M
+65956978254i[NOGUI ] ips = 124.592M
+66081720915i[NOGUI ] ips = 124.743M
+66204140864i[NOGUI ] ips = 122.420M
+66314212541i[NOGUI ] ips = 110.072M
+66416632761i[NOGUI ] ips = 102.420M
+66519312748i[NOGUI ] ips = 102.680M
+66620875505i[NOGUI ] ips = 101.563M
+66732013950i[NOGUI ] ips = 111.138M
+66857058065i[NOGUI ] ips = 125.044M
+66979488863i[NOGUI ] ips = 122.431M
+67101706362i[NOGUI ] ips = 122.217M
+67204040753i[NOGUI ] ips = 102.334M
+67319814466i[NOGUI ] ips = 115.774M
+67443866386i[NOGUI ] ips = 124.052M
+67568491585i[NOGUI ] ips = 124.625M
+67693117967i[NOGUI ] ips = 124.626M
+67817703510i[NOGUI ] ips = 124.586M
+67942497519i[NOGUI ] ips = 124.794M
+68067107495i[NOGUI ] ips = 124.610M
+68191506178i[NOGUI ] ips = 124.399M
+68316109484i[NOGUI ] ips = 124.603M
+68440793957i[NOGUI ] ips = 124.684M
+68565423643i[NOGUI ] ips = 124.630M
+68689971209i[NOGUI ] ips = 124.548M
+68814606150i[NOGUI ] ips = 124.635M
+68939209159i[NOGUI ] ips = 124.603M
+69063636781i[NOGUI ] ips = 124.428M
+69188130718i[NOGUI ] ips = 124.494M
+69312761810i[NOGUI ] ips = 124.631M
+69437251890i[NOGUI ] ips = 124.490M
+69561858408i[NOGUI ] ips = 124.607M
+69686423248i[NOGUI ] ips = 124.565M
+69810918247i[NOGUI ] ips = 124.495M
+69935508124i[NOGUI ] ips = 124.590M
+70060046860i[NOGUI ] ips = 124.539M
+70184637795i[NOGUI ] ips = 124.591M
+70309228359i[NOGUI ] ips = 124.591M
+70433780408i[NOGUI ] ips = 124.552M
+70558326708i[NOGUI ] ips = 124.546M
+70682840877i[NOGUI ] ips = 124.514M
+70807366025i[NOGUI ] ips = 124.525M
+70932031575i[NOGUI ] ips = 124.666M
+71056405969i[NOGUI ] ips = 124.374M
+71180919655i[NOGUI ] ips = 124.514M
+71282620199i[NOGUI ] ips = 101.701M
+71384628871i[NOGUI ] ips = 102.009M
+71508114439i[NOGUI ] ips = 123.486M
+71622769242i[NOGUI ] ips = 114.655M
+71723081801i[NOGUI ] ips = 100.313M
+71832486451i[NOGUI ] ips = 109.405M
+71939059078i[NOGUI ] ips = 106.573M
+72047385549i[NOGUI ] ips = 108.326M
+72171893998i[NOGUI ] ips = 124.508M
+72296338641i[NOGUI ] ips = 124.445M
+72420659218i[NOGUI ] ips = 124.321M
+72554618416i[NOGUI ] ips = 133.959M
+72679293541i[NOGUI ] ips = 124.675M
+72804086562i[NOGUI ] ips = 124.793M
+72928754102i[NOGUI ] ips = 124.668M
+73046646021i[NOGUI ] ips = 117.892M
+73147274492i[NOGUI ] ips = 100.628M
+73253453104i[NOGUI ] ips = 106.179M
+73377939676i[NOGUI ] ips = 124.487M
+73502632874i[NOGUI ] ips = 124.693M
+73627142873i[NOGUI ] ips = 124.510M
+73751888476i[NOGUI ] ips = 124.746M
